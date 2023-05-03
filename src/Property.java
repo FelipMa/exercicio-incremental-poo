@@ -1,14 +1,18 @@
+import java.util.Calendar;
+
 public class Property {
     private String iptu;
     private String type;
     private String usage;
     private Address address;
+    private Schedule schedule;
 
     public Property(String iptu, String type, String usage, Address address) {
         this.iptu = iptu;
         this.type = type;
         this.usage = usage;
         this.address = address;
+        this.schedule = new Schedule();
     }
 
     public String getIptu() {
@@ -41,6 +45,34 @@ public class Property {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void addAvailableDate(Calendar date) {
+        this.schedule.addAvailableDate(date);
+    }
+
+    public void addUnavailableDate(Calendar date) {
+        this.schedule.addUnavailableDate(date);
+    }
+
+    public void addReservedDate(Calendar date) {
+        this.schedule.addReservedDate(date);
+    }
+
+    public void removeAvailableDate(Calendar date) {
+        this.schedule.removeAvailableDate(date);
+    }
+
+    public void removeUnavailableDate(Calendar date) {
+        this.schedule.removeUnavailableDate(date);
+    }
+
+    public void removeReservedDate(Calendar date) {
+        this.schedule.removeReservedDate(date);
     }
 
     @Override
