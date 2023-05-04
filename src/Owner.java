@@ -83,4 +83,16 @@ public class Owner {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", rg='" + rg + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address=" + address +
+                ", properties=" + properties +
+                '}';
+    }
 }

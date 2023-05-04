@@ -4,16 +4,25 @@ public class Address {
     private String zipCode;
     private String state;
     private String city;
+    private enum States {
+        AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO
+    }
 
     public Address(String street, String number, String zipCode, String state, String city) {
         this.street = street;
         this.number = number;
         this.zipCode = zipCode;
-        this.state = state;
         this.city = city;
-        if (state.length() != 2) {
-            throw new IllegalArgumentException("State must have 2 characters");
+        for (States s : States.values()) {
+            if (s.name().equals(state)) {
+                this.state = state;
+                break;
+            }
         }
+        if (this.state == null) {
+            throw new IllegalArgumentException("State must be a valid state");
+        }
+        
     }
 
     public String getStreet() {
@@ -45,7 +54,15 @@ public class Address {
     }
 
     public void setState(String state) {
-        this.state = state;
+        for (States s : States.values()) {
+            if (s.name().equals(state)) {
+                this.state = state;
+                break;
+            }
+        }
+        if (this.state == null) {
+            throw new IllegalArgumentException("State must be a valid state");
+        }
     }
 
     public String getCity() {
