@@ -16,6 +16,15 @@ public class Owner {
         this.address = address;
     }
 
+    public Owner(String name, String cpf, String rg, String phone, String street, String number, String zipCode,
+            String state, String city) {
+        this.name = name;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.phone = phone;
+        this.address = new Address(street, number, zipCode, state, city);
+    }
+
     public String getName() {
         return name;
     }
@@ -60,12 +69,9 @@ public class Owner {
         return properties;
     }
 
-    public void setProperties(ArrayList<Property> properties) {
-        this.properties = properties;
-    }
-
     public void addProperty(Property property) {
         this.properties.add(property);
+        property.setOwner(this);
     }
 
     public void removeProperty(String iptu) {

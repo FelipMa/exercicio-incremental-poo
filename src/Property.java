@@ -6,6 +6,7 @@ public class Property {
     private String usage;
     private Address address;
     private Schedule schedule;
+    private Owner owner;
 
     public Property(String iptu, String type, String usage, Address address) {
         this.iptu = iptu;
@@ -13,6 +14,27 @@ public class Property {
         this.usage = usage;
         this.address = address;
         this.schedule = new Schedule();
+        this.owner = null;
+    }
+
+    public Property(String iptu, String type, String usage, String street, String number, String zipCode, String state,
+            String city) {
+        this.iptu = iptu;
+        this.type = type;
+        this.usage = usage;
+        this.address = new Address(street, number, zipCode, state, city);
+        this.schedule = new Schedule();
+        this.owner = null;
+    }
+
+    public Property(String iptu, String type, String usage, String street, String number, String zipCode, String state,
+            String city, Owner owner) {
+        this.iptu = iptu;
+        this.type = type;
+        this.usage = usage;
+        this.address = new Address(street, number, zipCode, state, city);
+        this.schedule = new Schedule();
+        this.owner = owner;
     }
 
     public String getIptu() {
@@ -75,6 +97,18 @@ public class Property {
         this.schedule.removeReservedDate(date);
     }
 
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        if (this.owner != null) {
+            this.owner.removeProperty(this.iptu);
+        }
+        this.owner = owner;
+        this.owner.addProperty(this);
+    }
+
     @Override
     public String toString() {
         return "Property{" +
@@ -82,6 +116,8 @@ public class Property {
                 ", type='" + type + '\'' +
                 ", usage='" + usage + '\'' +
                 ", address=" + address +
+                ", schedule=" + schedule +
+                ", owner=" + owner +
                 '}';
     }
 }

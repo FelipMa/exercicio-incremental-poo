@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -62,10 +63,29 @@ public class Schedule {
 
     @Override
     public String toString() {
+        ArrayList<Date> available = new ArrayList<Date>();
+        ArrayList<Date> unavailable = new ArrayList<Date>();
+        ArrayList<Date> reserved = new ArrayList<Date>();
+
+        availableDates.forEach((date) -> {
+            Date d = date.getTime();
+            available.add(d);
+        });
+
+        unavailableDates.forEach((date) -> {
+            Date d = date.getTime();
+            unavailable.add(d);
+        });
+
+        reservedDates.forEach((date) -> {
+            Date d = date.getTime();
+            reserved.add(d);
+        });
+
         return "Schedule{" +
-                "availableDates=" + availableDates +
-                ", unavailableDates=" + unavailableDates +
-                ", reservedDates=" + reservedDates +
+                "availableDates=" + available +
+                ", unavailableDates=" + unavailable +
+                ", reservedDates=" + reserved +
                 '}';
     }
 }

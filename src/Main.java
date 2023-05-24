@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class Main {
@@ -6,6 +7,7 @@ public class Main {
         Owner owner = registerOwner();
         System.out.println(property);
         System.out.println(owner);
+        System.out.println(setUnavailableDate(property));
     }
 
     public static Property registerProperty() {
@@ -27,10 +29,7 @@ public class Main {
         System.out.println("Enter property usage: ");
         String usage = scanner.nextLine();
 
-        scanner.close();
-
-        Address address = new Address(street, number, zipCode, state, city);
-        Property property = new Property(iptu, type, usage, address);
+        Property property = new Property(iptu, type, usage, street, number, zipCode, state, city);
         System.out.println("Property registered successfully!");
 
         return property;
@@ -57,12 +56,33 @@ public class Main {
         System.out.println("Enter owner address city: ");
         String city = scanner.nextLine();
 
-        scanner.close();
-
-        Address address = new Address(street, number, zipCode, state, city);
-        Owner owner = new Owner(name, cpf, rg, phone, address);
+        Owner owner = new Owner(name, cpf, rg, phone, street, number, zipCode, state, city);
         System.out.println("Owner registered successfully!");
 
         return owner;
+    }
+
+    public static Property setUnavailableDate(Property property) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter unavailable day: ");
+        int day = scanner.nextInt();
+        System.out.println("Enter unavailable month (number): ");
+        int month = scanner.nextInt();
+        System.out.println("Enter unavailable year: ");
+        int year = scanner.nextInt();
+
+        Calendar date = Calendar.getInstance();
+		date.set(Calendar.YEAR, year);
+        if (month > 0 && month <= 12)
+            date.set(Calendar.MONTH, month - 1);
+        else {
+            System.out.println("Invalid month!");
+            return property;
+        }
+		date.set(Calendar.DAY_OF_MONTH, day);
+        
+        property.getSchedule().addUnavailableDate(date);
+        System.out.println("Unavailable date set successfully!");
+        return property;
     }
 }
