@@ -88,4 +88,17 @@ public class Schedule {
                 ", reservedDates=" + reserved +
                 '}';
     }
+
+    public boolean checkAvailability(Calendar startDate, Calendar endDate) {
+        boolean available = true;
+        Calendar aux = (Calendar) startDate.clone();
+        while (aux.compareTo(endDate) <= 0) {
+            if (this.reservedDates.contains(aux)) {
+                available = false;
+                break;
+            }
+            aux.add(Calendar.DATE, 1);
+        }
+        return available;
+    }
 }

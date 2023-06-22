@@ -1,6 +1,6 @@
 import java.util.Calendar;
 
-public abstract class Property {
+public abstract class Property implements PropertyAplicationInterface{
     private String iptu;
     private String type;
     private String usage;
@@ -120,4 +120,23 @@ public abstract class Property {
 
     public abstract float calculateValue();
 
+    @Override
+    public boolean checkPropertyAvailability(Calendar startDate, Calendar endDate) {
+        return this.schedule.checkAvailability(startDate, endDate);
+    }
+
+    @Override
+    public float checkPropertyTotalValue(Calendar startDate, Calendar endDate) {
+        long milis = endDate.getTimeInMillis() - startDate.getTimeInMillis();
+        long days = milis / (1000 * 60 * 60 * 24);
+        if (days < 1) {
+            days = 1;
+        }
+        float value = this.calculateValue();
+        return value * days;
+    }
+
+    public float calculatePropertyValue(Calendar date) {
+        return this.calculateValue();
+    }
 }
