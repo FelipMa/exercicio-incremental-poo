@@ -1,20 +1,37 @@
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Property p1 = new AutonomousProperty("100.00", "apartment", "residential", "rua 1", "123", "123", "SP", "sp", 100,
-                100);
-        Property p2 = new SharedProperty("200.00", "house", "residential", "rua 2", "123", "123", "SP", "sp", "casa 2");
+        ArrayList<Property> properties = new ArrayList<Property>();
+        ArrayList<Owner> owners = new ArrayList<Owner>();
+        while (true) {
+            // As outras funções não estão no loop pois não foi solicitado, mas poderiam estar
+            System.out.println("Enter the option number: ");
+            System.out.println("1 - Register property");
+            System.out.println("2 - Register owner");
+            System.out.println("3 - Exit");
+            Scanner scanner = new Scanner(System.in);
+            int option = scanner.nextInt();
+            if (option == 1) {
+                Property property = registerProperty();
+                properties.add(property);
+            } else if (option == 2) {
+                try {
+                    Owner owner = registerOwner(owners);
+                    owners.add(owner);
+                } catch (UsuarioExistenteException e) {
+                    System.out.println("Erro: " + e.getMessage());
+                }
+            } else if (option == 3) {
+                break;
+            }
+            else {
+                System.out.println("Invalid option!");
+            }
 
-        System.out.println(p1);
-        System.out.println("");
-        System.out.println(p2);
-        System.out.println("");
-
-        System.out.println(calculatePropertyValueInSeason(p1, 1));
-        System.out.println("");
-        System.out.println(calculatePropertyValueInSeason(p2, 3));
+        }
     }
 
     public static Property registerProperty() {
@@ -65,7 +82,7 @@ public class Main {
         }
     }
 
-    public static Owner registerOwner() {
+    public static Owner registerOwner(ArrayList<Owner> owners) throws UsuarioExistenteException{
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter owner name: ");
         String name = scanner.nextLine();
@@ -87,8 +104,12 @@ public class Main {
         String city = scanner.nextLine();
 
         Owner owner = new Owner(name, cpf, rg, phone, street, number, zipCode, state, city);
+        for (Owner o : owners) {
+            if (o.getCpf().equals(owner.getCpf())) {
+                throw new UsuarioExistenteException("Owner already registered!");
+            }
+        }
         System.out.println("Owner registered successfully!");
-
         return owner;
     }
 
